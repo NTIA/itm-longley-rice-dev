@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36301.6
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "Fortran-ITM-P2P", "Fortran-ITM-P2P.vfproj", "{287DD04F-3917-1B1E-7FDC-9C078432D177}"
+EndProject
+Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "Fortran-ITM-Area", "..\Fortran-ITM-Area\Fortran-ITM-Area.vfproj", "{E861898C-3801-CD83-4461-5190CDEEA393}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "C-ITM-Longley-Rice", "..\C-ITM-Longley-Rice\C-ITM-Longley-Rice.vcxproj", "{9AFDEFD6-6948-4E6A-BC63-A883A1EB547D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{287DD04F-3917-1B1E-7FDC-9C078432D177}.Debug|x64.ActiveCfg = Debug|x64
+		{287DD04F-3917-1B1E-7FDC-9C078432D177}.Debug|x64.Build.0 = Debug|x64
+		{287DD04F-3917-1B1E-7FDC-9C078432D177}.Debug|x86.ActiveCfg = Debug|Win32
+		{287DD04F-3917-1B1E-7FDC-9C078432D177}.Debug|x86.Build.0 = Debug|Win32
+		{287DD04F-3917-1B1E-7FDC-9C078432D177}.Release|x64.ActiveCfg = Release|x64
+		{287DD04F-3917-1B1E-7FDC-9C078432D177}.Release|x64.Build.0 = Release|x64
+		{287DD04F-3917-1B1E-7FDC-9C078432D177}.Release|x86.ActiveCfg = Release|Win32
+		{287DD04F-3917-1B1E-7FDC-9C078432D177}.Release|x86.Build.0 = Release|Win32
+		{E861898C-3801-CD83-4461-5190CDEEA393}.Debug|x64.ActiveCfg = Debug|x64
+		{E861898C-3801-CD83-4461-5190CDEEA393}.Debug|x64.Build.0 = Debug|x64
+		{E861898C-3801-CD83-4461-5190CDEEA393}.Debug|x86.ActiveCfg = Debug|Win32
+		{E861898C-3801-CD83-4461-5190CDEEA393}.Debug|x86.Build.0 = Debug|Win32
+		{E861898C-3801-CD83-4461-5190CDEEA393}.Release|x64.ActiveCfg = Release|x64
+		{E861898C-3801-CD83-4461-5190CDEEA393}.Release|x64.Build.0 = Release|x64
+		{E861898C-3801-CD83-4461-5190CDEEA393}.Release|x86.ActiveCfg = Release|Win32
+		{E861898C-3801-CD83-4461-5190CDEEA393}.Release|x86.Build.0 = Release|Win32
+		{9AFDEFD6-6948-4E6A-BC63-A883A1EB547D}.Debug|x64.ActiveCfg = Debug|x64
+		{9AFDEFD6-6948-4E6A-BC63-A883A1EB547D}.Debug|x64.Build.0 = Debug|x64
+		{9AFDEFD6-6948-4E6A-BC63-A883A1EB547D}.Debug|x86.ActiveCfg = Debug|Win32
+		{9AFDEFD6-6948-4E6A-BC63-A883A1EB547D}.Debug|x86.Build.0 = Debug|Win32
+		{9AFDEFD6-6948-4E6A-BC63-A883A1EB547D}.Release|x64.ActiveCfg = Release|x64
+		{9AFDEFD6-6948-4E6A-BC63-A883A1EB547D}.Release|x64.Build.0 = Release|x64
+		{9AFDEFD6-6948-4E6A-BC63-A883A1EB547D}.Release|x86.ActiveCfg = Release|Win32
+		{9AFDEFD6-6948-4E6A-BC63-A883A1EB547D}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A3830AB0-EB47-47B3-94EF-830A287613B6}
+	EndGlobalSection
+EndGlobal
