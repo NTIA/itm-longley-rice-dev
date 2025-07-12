@@ -170,7 +170,6 @@ class C_ITM:
     ):
         """ITM Point-to-Point mode."""
         ctype_dbloss = ct.c_double(0)
-        # ctype_strmode = ct.c_char_p
         ctype_strmode = ct.create_string_buffer(42)
         ctype_errnum = ct.c_int(0)
 
