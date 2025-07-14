@@ -24,6 +24,7 @@
     <ProjectGuid>{5b67edb7-b660-45ab-a0dd-f36a4c1336ac}</ProjectGuid>
     <RootNamespace>CITM</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>ITM122</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
