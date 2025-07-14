@@ -201,8 +201,8 @@ class ITM122:
 if __name__ == "__main__":
     print("Running program: " + os.path.basename(__file__))
 
-    citm = ITM122()
-    citm.print_version()
+    itm122 = ITM122()
+    itm122.print_version()
 
     # Try point_to_point().
     elev = [3, 10, 0, 10, 20, 0]
@@ -217,7 +217,7 @@ if __name__ == "__main__":
     conf = 0.5
     rel = 0.5
 
-    dbloss, strmode, errnum = citm.point_to_point(
+    dbloss, strmode, errnum = itm122.point_to_point(
         elev,
         tht_m,
         rht_m,
