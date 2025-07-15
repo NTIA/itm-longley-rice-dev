@@ -23,8 +23,8 @@ class ITM122:
     """Python wrapper class for ITM v1.2.2: ITM122.dll.
 
     This class allows the use of ITM122.dll functions from Python through a
-    ctypes interface. This class necessarily requires the ITM122.dll to be in the
-    default repository location or a specified location. ITM122.dll must be
+    ctypes interface. This class necessarily requires the ITM122.dll to be in
+    the default repository location or a specified location. ITM122.dll must be
     compiled for a 64-bit operating system.
 
     ITM122.dll function are directly linked with "dll_" prepended to their names
@@ -41,7 +41,7 @@ class ITM122:
 
     Usage
     -----
-    citm = ITM122()
+    itm122 = ITM122()
     """
 
     # %% __init__
