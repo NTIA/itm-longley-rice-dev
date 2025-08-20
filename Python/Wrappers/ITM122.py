@@ -167,6 +167,31 @@ class ITM122:
         ]
         self.dll_avar.restype = ct.c_double
 
+        # Get the ITMAreadBLoss function.
+        self.dll_ITMAreadBLoss = getattr(
+            self.DLL,
+            "ITMAreadBLoss"
+        )
+        self.dll_ITMAreadBLoss.argtypes = [
+            ct.c_long,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_int,
+            ct.c_int,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_int,
+            ct.c_int,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double
+        ]
+        self.dll_ITMAreadBLoss.restype = ct.c_double
+
     # %% __exit__
     def __exit__(
         self,
@@ -311,8 +336,49 @@ class ITM122:
 
         return avarv, prop, propv
 
+    # %% ITMAreadBLoss
+    def ITMAreadBLoss(
+        self,
+        ModVar,
+        deltaH,
+        tht_m,
+        rht_m,
+        dist_km,
+        TSiteCriteria,
+        RSiteCriteria,
+        eps_dielect,
+        sgm_conductivity,
+        eno_ns_surfref,
+        frq_mhz,
+        radio_climate,
+        pol,
+        pctTime,
+        pctLoc,
+        pctConf
+    ):
+        """ITM v1.2.2 ITMAreadBLoss."""
+        dbloss = self.dll_ITMAreadBLoss(
+            ModVar,
+            deltaH,
+            tht_m,
+            rht_m,
+            dist_km,
+            TSiteCriteria,
+            RSiteCriteria,
+            eps_dielect,
+            sgm_conductivity,
+            eno_ns_surfref,
+            frq_mhz,
+            radio_climate,
+            pol,
+            pctTime,
+            pctLoc,
+            pctConf
+        )
+        return dbloss
 
 # %% Classes for C structures used by ITM v1.2.2.
+
 
 # %% tcomplex
 class tcomplex(ct.Structure):
