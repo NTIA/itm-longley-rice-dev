@@ -93,38 +93,6 @@ class ITM122:
         # Load the .dll.
         self.DLL = ct.cdll.LoadLibrary(dll_path)
 
-        # Get the .dll version.
-        self.dll_ITMDLLVersion = getattr(
-            self.DLL,
-            'ITMDLLVersion'
-        )
-        self.dll_ITMDLLVersion.argtypes = None
-        self.dll_ITMDLLVersion.restype = ct.c_double
-        self.dll_ITMDLLVersion = self.dll_ITMDLLVersion()
-
-        # Get the point_to_point function.
-        self.dll_point_to_point = getattr(
-            self.DLL,
-            "point_to_point"
-        )
-        self.dll_point_to_point.argtypes = [
-            np.ctypeslib.ndpointer(ct.c_double, flags='C_CONTIGUOUS'),
-            ct.c_double,
-            ct.c_double,
-            ct.c_double,
-            ct.c_double,
-            ct.c_double,
-            ct.c_double,
-            ct.c_int,
-            ct.c_int,
-            ct.c_double,
-            ct.c_double,
-            ct.POINTER(ct.c_double),
-            ct.c_char_p,
-            ct.POINTER(ct.c_int)
-        ]
-        self.dll_point_to_point.restype = None
-
         # Get the area function.
         self.dll_area = getattr(
             self.DLL,
@@ -192,6 +160,15 @@ class ITM122:
         ]
         self.dll_ITMAreadBLoss.restype = ct.c_double
 
+        # Get the .dll version.
+        self.dll_ITMDLLVersion = getattr(
+            self.DLL,
+            'ITMDLLVersion'
+        )
+        self.dll_ITMDLLVersion.argtypes = None
+        self.dll_ITMDLLVersion.restype = ct.c_double
+        self.dll_ITMDLLVersion = self.dll_ITMDLLVersion()
+
         # Get the lrprop function.
         self.dll_lrprop = getattr(
             self.DLL,
@@ -204,6 +181,29 @@ class ITM122:
         ]
         self.lrprop.restype = None
 
+        # Get the point_to_point function.
+        self.dll_point_to_point = getattr(
+            self.DLL,
+            "point_to_point"
+        )
+        self.dll_point_to_point.argtypes = [
+            np.ctypeslib.ndpointer(ct.c_double, flags='C_CONTIGUOUS'),
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_int,
+            ct.c_int,
+            ct.c_double,
+            ct.c_double,
+            ct.POINTER(ct.c_double),
+            ct.c_char_p,
+            ct.POINTER(ct.c_int)
+        ]
+        self.dll_point_to_point.restype = None
+
     # %% __exit__
     def __exit__(
         self,
@@ -214,13 +214,6 @@ class ITM122:
         """Close the .dll."""
         ct.windll.kernel32.FreeLibrary(self.MKEDLL._handle)
 
-    # %% version
-    def version(
-        self,
-    ):
-        """Return the ITM122.dll version number."""
-        return self.dll_ITMDLLVersion
-
     # %% print_version
     def print_version(
         self,
@@ -228,52 +221,9 @@ class ITM122:
         """Print ITM122 Library version information."""
         print((
             "**** ITM122 Library **********************************\n"
-            f"    .dll Version:      {self.version()}\n"
+            f"    .dll Version:      {self.ITMDLLVersion()}\n"
             f"*****************************************************"
         ))
-
-    # %% point_to_point
-    def point_to_point(
-        self,
-        elev,
-        tht_m,
-        rht_m,
-        eps_dielect,
-        sgm_conductivity,
-        eno_ns_surfref,
-        frq_mhz,
-        radio_climate,
-        pol,
-        conf,
-        rel
-    ):
-        """ITM v1.2.2 Point-to-Point mode."""
-        ctype_dbloss = ct.c_double(0)
-        ctype_strmode = ct.create_string_buffer(42)
-        ctype_errnum = ct.c_int(0)
-
-        self.dll_point_to_point(
-            np.array(elev, dtype='float64'),
-            tht_m,
-            rht_m,
-            eps_dielect,
-            sgm_conductivity,
-            eno_ns_surfref,
-            frq_mhz,
-            radio_climate,
-            pol,
-            conf,
-            rel,
-            ct.byref(ctype_dbloss),
-            ctype_strmode,
-            ctype_errnum
-        )
-
-        dbloss = ctype_dbloss.value
-        strmode = ctype_strmode.value.decode('utf-8')
-        errnum = ctype_errnum.value
-
-        return dbloss, strmode, errnum
 
     # %% area
     def area(
@@ -389,6 +339,13 @@ class ITM122:
         )
         return dbloss
 
+    # %% ITMDLLVersion
+    def ITMDLLVersion(
+        self,
+    ):
+        """Return the ITM122.dll version number."""
+        return self.dll_ITMDLLVersion
+
     # %% lrprop
     def lrprop(
         self,
@@ -404,6 +361,49 @@ class ITM122:
             ct.byref(propa)
         )
         return prop, propa
+
+    # %% point_to_point
+    def point_to_point(
+        self,
+        elev,
+        tht_m,
+        rht_m,
+        eps_dielect,
+        sgm_conductivity,
+        eno_ns_surfref,
+        frq_mhz,
+        radio_climate,
+        pol,
+        conf,
+        rel
+    ):
+        """ITM v1.2.2 Point-to-Point mode."""
+        ctype_dbloss = ct.c_double(0)
+        ctype_strmode = ct.create_string_buffer(42)
+        ctype_errnum = ct.c_int(0)
+
+        self.dll_point_to_point(
+            np.array(elev, dtype='float64'),
+            tht_m,
+            rht_m,
+            eps_dielect,
+            sgm_conductivity,
+            eno_ns_surfref,
+            frq_mhz,
+            radio_climate,
+            pol,
+            conf,
+            rel,
+            ct.byref(ctype_dbloss),
+            ctype_strmode,
+            ctype_errnum
+        )
+
+        dbloss = ctype_dbloss.value
+        strmode = ctype_strmode.value.decode('utf-8')
+        errnum = ctype_errnum.value
+
+        return dbloss, strmode, errnum
 
 # %% Classes for C structures used by ITM v1.2.2.
 
