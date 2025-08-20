@@ -276,6 +276,21 @@ class ITM122:
         ]
         self.dll_qlra.restype = None
 
+        # Get the qlrpfl function.
+        self.dll_qlrpfl = getattr(
+            self.DLL,
+            "qlrpfl"
+        )
+        self.dll_qlrpfl.argtypes = [
+            np.ctypeslib.ndpointer(ct.c_double, flags='C_Contiguous'),
+            ct.c_int,
+            ct.c_int,
+            ct.POINTER(prop_type),
+            ct.POINTER(propa_type),
+            ct.POINTER(propv_type)
+        ]
+        self.dll_qlrpfl.restype = None
+
     # %% __exit__
     def __exit__(
         self,
@@ -596,6 +611,28 @@ class ITM122:
             ct.byref(propv)
         )
         return prop, propv
+
+    # %% qlrpfl
+    def qlrpfl(
+        self,
+        pfl,
+        klimx,
+        mdvarx
+    ):
+        """ITM v1.2.2 qlrpfl function."""
+        prop = prop_type()
+        propa = propa_type()
+        propv = propv_type()
+
+        self.dll_qlrpfl(
+            pfl,
+            klimx,
+            mdvarx,
+            ct.byref(prop),
+            ct.byref(propa),
+            ct.byref(propv)
+        )
+        return prop, propa, propv
 
 # %% Classes for C structures used by ITM v1.2.2.
 
