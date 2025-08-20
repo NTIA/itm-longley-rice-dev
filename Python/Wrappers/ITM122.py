@@ -179,7 +179,7 @@ class ITM122:
             ct.POINTER(prop_type),
             ct.POINTER(propa_type)
         ]
-        self.lrprop.restype = None
+        self.dll_lrprop.restype = None
 
         # Get the point_to_point function.
         self.dll_point_to_point = getattr(
@@ -203,6 +203,29 @@ class ITM122:
             ct.POINTER(ct.c_int)
         ]
         self.dll_point_to_point.restype = None
+
+        # Get the point_to_pointDH function.
+        self.dll_point_to_pointDH = getattr(
+            self.DLL,
+            "point_to_pointDH"
+        )
+        self.dll_point_to_pointDH.argtypes = [
+            np.ctypeslib.ndpointer(ct.c_double, flags='C_CONTIGUOUS'),
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_int,
+            ct.c_int,
+            ct.c_double,
+            ct.c_double,
+            ct.POINTER(ct.c_double),
+            ct.POINTER(ct.c_double),
+            ct.POINTER(ct.c_int)
+        ]
+        self.dll_point_to_pointDH.restype = None
 
     # %% __exit__
     def __exit__(
@@ -269,7 +292,7 @@ class ITM122:
             pctConf,
             ct.byref(ctype_dbloss),
             ctype_strmode,
-            ctype_errnum
+            ct.byref(ctype_errnum)
         )
 
         dbloss = ctype_dbloss.value
@@ -396,7 +419,7 @@ class ITM122:
             rel,
             ct.byref(ctype_dbloss),
             ctype_strmode,
-            ctype_errnum
+            ct.byref(ctype_errnum)
         )
 
         dbloss = ctype_dbloss.value
@@ -404,6 +427,49 @@ class ITM122:
         errnum = ctype_errnum.value
 
         return dbloss, strmode, errnum
+
+    # %% point_to_pointDH
+    def point_to_pointDH(
+        self,
+        elev,
+        tht_m,
+        rht_m,
+        eps_dielect,
+        sgm_conductivity,
+        eno_ns_surfref,
+        frq_mhz,
+        radio_climate,
+        pol,
+        conf,
+        rel
+    ):
+        """ITM v1.2.2 point_to_pointDH function."""
+        ctype_dbloss = ct.c_double(0)
+        ctype_deltaH = ct.c_double(0)
+        ctype_errnum = ct.c_int(0)
+
+        self.dll_point_to_point(
+            np.array(elev, dtype='float64'),
+            tht_m,
+            rht_m,
+            eps_dielect,
+            sgm_conductivity,
+            eno_ns_surfref,
+            frq_mhz,
+            radio_climate,
+            pol,
+            conf,
+            rel,
+            ct.byref(ctype_dbloss),
+            ct.byref(ctype_deltaH),
+            ct.byref(ctype_errnum)
+        )
+
+        dbloss = ctype_dbloss.value
+        deltaH = ctype_deltaH.value
+        errnum = ctype_errnum.value
+
+        return dbloss, deltaH, errnum
 
 # %% Classes for C structures used by ITM v1.2.2.
 
