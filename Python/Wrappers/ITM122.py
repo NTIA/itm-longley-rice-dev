@@ -291,6 +291,22 @@ class ITM122:
         ]
         self.dll_qlrpfl.restype = None
 
+        # Get the qlrps function.
+        self.dll_qlrps = getattr(
+            self.DLL,
+            "qlrps"
+        )
+        self.dll_qlrps.argtypes = [
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_int,
+            ct.c_double,
+            ct.c_double,
+            ct.POINTER(prop_type)
+        ]
+        self.dll_qlrps.restype = None
+
     # %% __exit__
     def __exit__(
         self,
@@ -633,6 +649,30 @@ class ITM122:
             ct.byref(propv)
         )
         return prop, propa, propv
+
+    # %% qlrps
+    def qlrps(
+        self,
+        fmhz,
+        zsys,
+        en0,
+        ipol,
+        eps,
+        sgm
+    ):
+        """ITM v1.2.2 qlrps function."""
+        prop = prop_type()
+
+        self.dll_qlrps(
+            fmhz,
+            zsys,
+            en0,
+            ipol,
+            eps,
+            sgm,
+            ct.byref(prop)
+        )
+        return prop
 
 # %% Classes for C structures used by ITM v1.2.2.
 
