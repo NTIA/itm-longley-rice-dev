@@ -262,6 +262,20 @@ class ITM122:
         ]
         self.dll_qerfi.restype = ct.c_double
 
+        # Get the qlra function.
+        self.dll_qlra = getattr(
+            self.DLL,
+            "qlra"
+        )
+        self.dll_qlra.argtypes = [
+            np.ctypeslib.ndpointer(ct.c_int, flags='C_Contiguous'),
+            ct.c_int,
+            ct.c_int,
+            ct.POINTER(prop_type),
+            ct.POINTER(propv_type)
+        ]
+        self.dll_qlra.restype = None
+
     # %% __exit__
     def __exit__(
         self,
@@ -562,6 +576,26 @@ class ITM122:
         """ITM v1.2.2 qerfi function."""
         v = self.dll_qerfi(q)
         return v
+
+    # %% qlra
+    def qlra(
+        self,
+        kst,
+        klimx,
+        mdvarx
+    ):
+        """ITM v1.2.2 qlra function."""
+        prop = prop_type()
+        propv = propv_type()
+
+        self.dll_qlra(
+            kst,
+            klimx,
+            mdvarx,
+            ct.byref(prop),
+            ct.byref(propv)
+        )
+        return prop, propv
 
 # %% Classes for C structures used by ITM v1.2.2.
 
