@@ -277,6 +277,136 @@ class ITM122:
         return dbloss, errnum
 
 
+# %% Classes for C structures used by ITM v1.2.2.
+
+# %% tcomplex
+class tcomplex(ct.Structure):
+    """tcomplex structure."""
+
+    _fields_ = [
+        ("tcreal", ct.c_double),
+        ("tcimag", ct.c_double)
+    ]
+
+    def __dict__(
+        self
+    ):
+        """Return this structure's contents as a dict."""
+        tcomplex_dict = {
+            "tcreal": self.tcreal,
+            "tcimag": self.tcimag
+        }
+        return tcomplex_dict
+
+
+# %% prop_type
+class prop_type(ct.Structure):
+    """prop_type structure."""
+
+    _fields_ = [
+        ("aref", ct.c_double),
+        ("dist", ct.c_double),
+        ("hg", ct.c_double * 2),
+        ("wn", ct.c_double),
+        ("dh", ct.c_double),
+        ("ens", ct.c_double),
+        ("gme", ct.c_double),
+        ("zgndreal", ct.c_double),
+        ("zgndimag", ct.c_double),
+        ("he", ct.c_double * 2),
+        ("dl", ct.c_double * 2),
+        ("the", ct.c_double * 2),
+        ("kwx", ct.c_double),
+        ("mdp", ct.c_double)
+    ]
+
+    def __dict__(
+        self
+    ):
+        """Return this structure's contents as a dict."""
+        prop_type_dict = {
+            "aref": self.aref,
+            "dist": self.dist,
+            "hg": self.hg[:],
+            "wn": self.wn,
+            "dh": self.dh,
+            "ens": self.ens,
+            "gme": self.gme,
+            "zgndreal": self.zgndreal,
+            "zgndimag": self.zgndimag,
+            "he": self.he[:],
+            "dl": self.dl[:],
+            "the": self.the[:],
+            "kwx": self.kwx,
+            "mdp": self.mdp
+        }
+        return prop_type_dict
+
+
+# %% propv_type
+class propv_type(ct.Structure):
+    """propv_type structure."""
+
+    _fields_ = [
+        ("sgc", ct.c_double),
+        ("lvar", ct.c_int),
+        ("mdvar", ct.c_int),
+        ("klim", ct.c_int)
+    ]
+
+    def __dict__(
+        self
+    ):
+        """Return this structure's contents as a dict."""
+        propv_type_dict = {
+            "sgc": self.sgc,
+            "lvar": self.lvar,
+            "mdvar": self.mdvar,
+            "klim": self.klim
+        }
+        return propv_type_dict
+
+
+# %% propa_type
+class propa_type(ct.Structure):
+    """propa_type structure."""
+
+    _fields_ = [
+        ("dlsa", ct.c_double),
+        ("dx", ct.c_double),
+        ("ael", ct.c_double),
+        ("ak1", ct.c_double),
+        ("ak2", ct.c_double),
+        ("aed", ct.c_double),
+        ("emd", ct.c_double),
+        ("aes", ct.c_double),
+        ("ems", ct.c_double),
+        ("dls", ct.c_double * 2),
+        ("dla", ct.c_double),
+        ("tha", ct.c_double)
+    ]
+
+    def __dict__(
+        self
+    ):
+        """Return this structure's contents as a dict."""
+        propa_type_dict = {
+            "dlsa": self.dlsa,
+            "dx": self.dx,
+            "ael": self.ael,
+            "ak1": self.ak1,
+            "ak2": self.ak2,
+            "aed": self.aed,
+            "emd": self.emd,
+            "aes": self.aes,
+            "ems": self.ems,
+            "dls": self.dls[:],
+            "dla": self.dla,
+            "tha": self.tha
+        }
+        return propa_type_dict
+
+
 # %% Run program.
 if __name__ == "__main__":
     print("Running program: " + os.path.basename(__file__))
