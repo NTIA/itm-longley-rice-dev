@@ -128,7 +128,7 @@ class ITM122:
         # Get the area function.
         self.dll_area = getattr(
             self.DLL,
-            "area",
+            "area"
         )
         self.dll_area.argtypes = [
             ct.c_long,
@@ -152,6 +152,20 @@ class ITM122:
             ct.POINTER(ct.c_int)
         ]
         self.dll_area.restype = None
+
+        # Get the avar function.
+        self.dll_avar = getattr(
+            self.DLL,
+            "avar"
+        )
+        self.dll_avar.argtypes = [
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.POINTER(prop_type),
+            ct.POINTER(propv_type)
+        ]
+        self.dll_avar.restype = ct.c_double
 
     # %% __exit__
     def __exit__(
@@ -275,6 +289,27 @@ class ITM122:
         errnum = ctype_errnum.value
 
         return dbloss, errnum
+
+    # %% avar
+    def avar(
+        self,
+        zzt,
+        zzl,
+        zzc
+    ):
+        """ITM v1.2.2 avar."""
+        prop = prop_type()
+        propv = propv_type()
+
+        avarv = self.dll_avar(
+            zzt,
+            zzl,
+            zzc,
+            ct.byref(prop),
+            ct.byref(propv)
+        )
+
+        return avarv, prop, propv
 
 
 # %% Classes for C structures used by ITM v1.2.2.
