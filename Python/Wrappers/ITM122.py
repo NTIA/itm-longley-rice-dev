@@ -227,6 +227,41 @@ class ITM122:
         ]
         self.dll_point_to_pointDH.restype = None
 
+        # Get the point_to_pointMDH function.
+        self.dll_point_to_pointMDH = getattr(
+            self.DLL,
+            "point_to_pointMDH"
+        )
+        self.dll_point_to_pointMDH.argtypes = [
+            np.ctypeslib.ndpointer(ct.c_double, flags='C_Contiguous'),
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_int,
+            ct.c_int,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.POINTER(ct.c_double),
+            ct.POINTER(ct.c_int),
+            ct.POINTER(ct.c_double),
+            ct.POINTER(ct.c_int)
+        ]
+        self.dll_point_to_pointMDH.restype = None
+
+        # Get the qerfi function.
+        self.dll_qerfi = getattr(
+            self.DLL,
+            "qerfi"
+        )
+        self.dll_qerfi.argtypes = [
+            ct.c_double
+        ]
+        self.dll_qerfi.restype = ct.c_double
+
     # %% __exit__
     def __exit__(
         self,
@@ -470,6 +505,63 @@ class ITM122:
         errnum = ctype_errnum.value
 
         return dbloss, deltaH, errnum
+
+    # %% point_to_pointMDH
+    def point_to_pointMDH(
+        self,
+        elev,
+        tht_m,
+        rht_m,
+        eps_dielect,
+        sgm_conductivity,
+        eno_ns_surfref,
+        frq_mhz,
+        radio_climate,
+        pol,
+        timepct,
+        locpct,
+        confpct
+    ):
+        """ITM v1.2.2 point_to_pointMDH function."""
+        ctype_dbloss = ct.c_double(0)
+        ctype_propmode = ct.c_int(0)
+        ctype_deltaH = ct.c_double(0)
+        ctype_errnum = ct.c_int(0)
+
+        self.dll_point_to_pointMDH(
+            elev,
+            tht_m,
+            rht_m,
+            eps_dielect,
+            sgm_conductivity,
+            eno_ns_surfref,
+            frq_mhz,
+            radio_climate,
+            pol,
+            timepct,
+            locpct,
+            confpct,
+            ct.byref(ctype_dbloss),
+            ct.byref(ctype_propmode),
+            ct.byref(ctype_deltaH),
+            ct.byref(ctype_errnum)
+        )
+
+        dbloss = ctype_dbloss.value
+        propmode = ctype_propmode.value
+        deltaH = ctype_deltaH.value
+        errnum = ctype_errnum.value
+
+        return dbloss, propmode, deltaH, errnum
+
+    # %% qerfi
+    def qerfi(
+        self,
+        q
+    ):
+        """ITM v1.2.2 qerfi function."""
+        v = self.dll_qerfi(q)
+        return v
 
 # %% Classes for C structures used by ITM v1.2.2.
 
