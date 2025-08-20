@@ -125,6 +125,34 @@ class ITM122:
         ]
         self.dll_point_to_point.restype = None
 
+        # Get the area function.
+        self.dll_area = getattr(
+            self.DLL,
+            "area",
+        )
+        self.dll_area.argtypes = [
+            ct.c_long,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_int,
+            ct.c_int,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.c_int,
+            ct.c_int,
+            ct.c_double,
+            ct.c_double,
+            ct.c_double,
+            ct.POINTER(ct.c_double),
+            ct.c_char_p,
+            ct.POINTER(ct.c_int)
+        ]
+        self.dll_area.restype = None
+
     # %% __exit__
     def __exit__(
         self,
@@ -168,7 +196,7 @@ class ITM122:
         conf,
         rel
     ):
-        """ITM Point-to-Point mode."""
+        """ITM v1.2.2 Point-to-Point mode."""
         ctype_dbloss = ct.c_double(0)
         ctype_strmode = ct.create_string_buffer(42)
         ctype_errnum = ct.c_int(0)
@@ -196,11 +224,64 @@ class ITM122:
 
         return dbloss, strmode, errnum
 
+    # %% area
+    def area(
+        self,
+        ModVar,
+        deltaH,
+        tht_m,
+        rht_m,
+        dist_km,
+        TSiteCriteria,
+        RSiteCriteria,
+        eps_dielect,
+        sgm_conductivity,
+        eno_ns_surfref,
+        frq_mhz,
+        radio_climate,
+        pol,
+        pctTime,
+        pctLoc,
+        pctConf
+    ):
+        """ITM v1.2.2 area mode."""
+        ctype_dbloss = ct.c_double(0)
+        ctype_strmode = ct.create_string_buffer(0)  # Not used.
+        ctype_errnum = ct.c_int(0)
+
+        self.dll_area(
+            ModVar,
+            deltaH,
+            tht_m,
+            rht_m,
+            dist_km,
+            TSiteCriteria,
+            RSiteCriteria,
+            eps_dielect,
+            sgm_conductivity,
+            eno_ns_surfref,
+            frq_mhz,
+            radio_climate,
+            pol,
+            pctTime,
+            pctLoc,
+            pctConf,
+            ct.byref(ctype_dbloss),
+            ctype_strmode,
+            ctype_errnum
+        )
+
+        dbloss = ctype_dbloss.value
+        errnum = ctype_errnum.value
+
+        return dbloss, errnum
+
 
 # %% Run program.
 if __name__ == "__main__":
     print("Running program: " + os.path.basename(__file__))
 
+    # Initialize.
     itm122 = ITM122()
     itm122.print_version()
 
@@ -231,8 +312,50 @@ if __name__ == "__main__":
         rel
     )
 
-    print(f"dbloss: {dbloss}")
-    print(f"strmode: {strmode}")
-    print(f"errnum: {errnum}")
+    print("point-to-point:")
+    print(f"    dbloss: {dbloss}")
+    print(f"    strmode: {strmode}")
+    print(f"    errnum: {errnum}")
+
+    # Try area().
+    ModVar = 0
+    deltaH = 5.0
+    tht_m = 10.0
+    rht_m = 1.0
+    dist_km = 50.0
+    TSiteCriteria = 0
+    RSiteCriteria = 1
+    eps_dielect = 15
+    sgm_conductivity = 0.005
+    eno_ns_surfref = 301
+    frq_mhz = 2000.0
+    radio_climate = 5
+    pol = 0
+    pctTime = 0.50
+    pctLoc = 0.60
+    pctConf = 0.70
+
+    dbloss, errnum = itm122.area(
+        ModVar,
+        deltaH,
+        tht_m,
+        rht_m,
+        dist_km,
+        TSiteCriteria,
+        RSiteCriteria,
+        eps_dielect,
+        sgm_conductivity,
+        eno_ns_surfref,
+        frq_mhz,
+        radio_climate,
+        pol,
+        pctTime,
+        pctLoc,
+        pctConf
+    )
+
+    print("area:")
+    print(f"    dbloss: {dbloss}")
+    print(f"    errnum: {errnum}")
 
     print("Program complete.\n")
