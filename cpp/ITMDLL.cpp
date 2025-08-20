@@ -1238,5 +1238,5 @@ DllExport double _stdcall ITMAreadBLoss(long ModVar, double deltaH, double tht_m
 
 DllExport double _stdcall ITMDLLVersion()
 {
-	return 7.0;
+	return 7.1;
 }
