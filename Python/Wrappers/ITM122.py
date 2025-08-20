@@ -192,6 +192,18 @@ class ITM122:
         ]
         self.dll_ITMAreadBLoss.restype = ct.c_double
 
+        # Get the lrprop function.
+        self.dll_lrprop = getattr(
+            self.DLL,
+            "lrprop"
+        )
+        self.dll_lrprop.argtypes = [
+            ct.c_double,
+            ct.POINTER(prop_type),
+            ct.POINTER(propa_type)
+        ]
+        self.lrprop.restype = None
+
     # %% __exit__
     def __exit__(
         self,
@@ -376,6 +388,22 @@ class ITM122:
             pctConf
         )
         return dbloss
+
+    # %% lrprop
+    def lrprop(
+        self,
+        d
+    ):
+        """ITM v1.2.2 lrprop."""
+        prop = prop_type()
+        propa = propa_type()
+
+        self.dll_lrprop(
+            d,
+            ct.byref(prop),
+            ct.byref(propa)
+        )
+        return prop, propa
 
 # %% Classes for C structures used by ITM v1.2.2.
 
